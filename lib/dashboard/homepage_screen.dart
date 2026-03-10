@@ -14,27 +14,30 @@ class _MainScreenState extends State<MainScreen> {
 
   int steps = 0;
   String status = "Stopped";
+  double distanceKm = 0.0;
+
+  double stepLengthMeters = 0.78;
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     statusInit();
   }
 
   void onStepCount(StepCount event) {
     setState(() {
-      
+      steps = event.steps;
+      distanceKm = (steps * stepLengthMeters) / 1000;
     });
-    steps = event.steps;
   }
 
   void onPedestrianStatus(PedestrianStatus event) {
-    status = event.status;
+    setState(() {
+      status = event.status;
+    });
   }
 
   void onPedestrianStatusError(error) {}
-
   void onStepCountError(error) {}
 
   void statusInit() {
@@ -42,7 +45,6 @@ class _MainScreenState extends State<MainScreen> {
     pedestrianStatus = Pedometer.pedestrianStatusStream;
 
     stepCount.listen(onStepCount).onError(onStepCountError);
-
     pedestrianStatus.listen(onPedestrianStatus).onError(onPedestrianStatusError);
   }
 
@@ -60,19 +62,16 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(Icons.directions_walk_outlined, color: Colors.blue, size: 80),
-             SizedBox(height: 20),
-            Text(
-              'Steps: $steps',
-              style:  TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-             SizedBox(height: 20),
-            Text(
-              'Status: $status',
-              style:  TextStyle(fontSize: 20),
-            ),
+            SizedBox(height: 20),
+            Text('Steps: $steps', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+            SizedBox(height: 20),
+            Text('Distance: ${distanceKm.toStringAsFixed(2)} km', style: TextStyle(fontSize: 20)),
+            SizedBox(height: 20),
+            Text('Status: $status', style: TextStyle(fontSize: 20)),
           ],
         ),
       ),
     );
   }
+
 }

@@ -1,10 +1,10 @@
 import 'package:fitnessrun/dashboard/homepage_screen.dart';
+import 'package:fitnessrun/splashscreen/splashscreen_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
   runApp(Main());
 }
-
 
 class Main extends StatelessWidget {
   const Main({super.key});
@@ -12,6 +12,7 @@ class Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      // home: SplashscreenScreen(),
       home: MainScreen(),
       debugShowCheckedModeBanner: false,
     );
